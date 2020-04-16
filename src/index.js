@@ -61,6 +61,14 @@ in, который игнорирует свойства прототипа
     console.log(symbol in proxy); // true
  */
 
+function createProxy(object) {
+  return new Proxy(object, {
+    has(target, prop) {
+      return target.hasOwnProperty(prop);
+    }
+  });
+}
+
 /*
  Задание 3:
 
@@ -166,5 +174,6 @@ class MySet {
 }
 
 window.allKeysAndSymbols = allKeysAndSymbols;
+window.createProxy = createProxy;
 
-export { allKeysAndSymbols };
+export { allKeysAndSymbols, createProxy };
