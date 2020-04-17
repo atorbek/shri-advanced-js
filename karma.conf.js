@@ -7,7 +7,7 @@ module.exports = function(config) {
     files: ['test/**/*.js'],
     client: {
       mocha: {
-        timeout: 10000
+        timeout: 15000
       }
     },
     preprocessors: {

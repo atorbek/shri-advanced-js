@@ -111,12 +111,14 @@ asyncExecutor
 function asyncExecutor(generator) {
   const iterator = generator();
 
-  function next(value) {
-    const nextResult = iterator.next(value);
+  function next(value, isError = false) {
+    const nextResult = isError ? iterator.throw(value) : iterator.next(value);
     if (nextResult.done) {
       return nextResult.value;
     }
-    Promise.resolve(nextResult.value).then(next);
+    Promise.resolve(nextResult.value)
+      .then(result => next(result, isError))
+      .catch(error => next(error, !isError));
   }
 
   next();
@@ -181,9 +183,21 @@ function asyncExecutor(generator) {
         console.log(item.getValue.call(this)); // 42
     }, data)
  */
-class MySet {
-  // реализация
-}
+// class MySet {
+//   #set;
+//
+//   constructor(iterable) {
+//     if (typeof iterable[Symbol.iterator] !== 'function') {
+//       throw 'TypeError: object is not iterable (cannot read property Symbol(Symbol.iterator))';
+//     }
+//
+//     this.#set = iterable === null ? {} : this.#uniqueSet(iterable);
+//   }
+//
+//   #uniqueSet(iterable) {}
+// }
+//
+// const set = new MySet([4, 8, 15, 15, 16, 23, 42]);
 
 window.allKeysAndSymbols = allKeysAndSymbols;
 window.createProxy = createProxy;
