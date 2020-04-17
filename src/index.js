@@ -108,7 +108,19 @@ asyncExecutor
         console.timeEnd("Time");
     });
  */
-function asyncExecutor(generator) {}
+function asyncExecutor(generator) {
+  const iterator = generator();
+
+  function next(value) {
+    const nextResult = iterator.next(value);
+    if (nextResult.done) {
+      return nextResult.value;
+    }
+    Promise.resolve(nextResult.value).then(next);
+  }
+
+  next();
+}
 
 /*
 Дополнительное задание: собственная реализация Set
@@ -175,5 +187,6 @@ class MySet {
 
 window.allKeysAndSymbols = allKeysAndSymbols;
 window.createProxy = createProxy;
+window.asyncExecutor = asyncExecutor;
 
-export { allKeysAndSymbols, createProxy };
+export { allKeysAndSymbols, createProxy, asyncExecutor };

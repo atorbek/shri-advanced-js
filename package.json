@@ -8,7 +8,7 @@
     "build": "webpack --progress --colors",
     "watch": "webpack-dev-server --progress --colors --open",
     "start": "npm run watch",
-    "test": "karma start",
+    "test": "karma start ",
     "cover": "istanbul cover _mocha -- test/*.js"
   },
   "author": "",
